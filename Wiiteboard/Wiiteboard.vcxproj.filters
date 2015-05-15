@@ -45,6 +45,21 @@
     <ClInclude Include="MouseMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D:\Users\Jascha\Downloads\rightclickdll\rightclickdll\MouseInputDLL.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\WIIYOURSELF\WiiYourself!_1.15 (1)\WiiYourself!_1.15\wiimote.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\WIIYOURSELF\WiiYourself!_1.15 (1)\WiiYourself!_1.15\wiimote_common.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\WIIYOURSELF\WiiYourself!_1.15 (1)\WiiYourself!_1.15\wiimote_state.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WiimoteHandler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -71,5 +86,21 @@
     <ClCompile Include="MouseMovement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\WIIYOURSELF\WiiYourself!_1.15 (1)\WiiYourself!_1.15\wiimote.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WiimoteHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Users\Jascha\Downloads\rightclickdll\rightclickdll\MouseInputDLL.dll">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="D:\Users\Jascha\Downloads\rightclickdll\rightclickdll\MouseInputDLL.lib">
+      <Filter>Source Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>

@@ -14,10 +14,15 @@
 #include <array>
 #include "InputHandling.h"
 #include <random>
+#include "WiimoteHandler.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	MorphingController morphCon = MorphingController();
+
+	WiimoteHandler wh;
+	_tprintf(_T("%u connected"), wh.connectWiimotes());
+	wh.setLEDs(14);
+	/**MorphingController morphCon = MorphingController();
 	morphCon.addCalibrationPoint(0.0, 0.0);
 	morphCon.addCalibrationPoint(0.0, 1.0);
 	morphCon.addCalibrationPoint(1.0, 1.0);
@@ -61,7 +66,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		Sleep(1000);
 	}
-
+	**\
 	/**	InputHandling input = InputHandling();
 	std::array<bool, 12> test = { 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1 };
 	for (bool b : test) {
