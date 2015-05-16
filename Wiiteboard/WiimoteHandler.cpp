@@ -159,20 +159,53 @@
 	}
 
 	int WiimoteHandler::connectWiimotes(){
-		wiimotes[8] = new wiimote[8];
 		unsigned detected = 0;
 		while (detected < 8)
 		{
 			wiimote *next = new wiimote;
 			if (!next->Connect(wiimote::FIRST_AVAILABLE))
 				break;
-			wiimotes[detected++] = next;
+			detected++;
+			wiimotes.push_back(next);
 		}
 		return detected;
 	}
 	void WiimoteHandler::setLEDs(int on){
-		for (unsigned i = 0; i < 8; i++){
-			if (wiimotes[i]->IsConnected())
+		for (unsigned i = 0; i < wiimotes.size();i++){
 			wiimotes[i]->SetLEDs(on);
 		}
 	}
+
+	void WiimoteHandler::disconnectWiimotes(){
+		for (int i = 0; i < wiimotes.size();i++){
+			wiimotes[i]->Disconnect();
+			delete wiimotes[i];
+			wiimotes[i] = NULL;
+		}
+		wiimotes.clear();
+	}
+
+	bool WiimoteHandler::getIRData(unsigned wiimoteNo, unsigned dotNo, float* point){
+		if (wiimotes.size()>wiimoteNo){
+			wiimote_state::ir::dot &dot = wiimotes[wiimoteNo]->IR.Dot[dotNo];
+			if (dot.bVisible){
+				point[0] = dot.X;
+				point[1] = dot.Y;
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+	}
+
+	void WiimoteHandler::refreshWiimotes(){
+		for (int i = 0; i < wiimotes.size(); i++){
+			wiimotes[i]->RefreshState();
+		}
+	}
+
+

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1BF8D77F-69EA-48C6-8807-4F932CE35B97}</ProjectGuid>
+    <ProjectGuid>{CFCCDAEA-44EA-4B2B-A410-B596570AC2C5}</ProjectGuid>
     <RootNamespace>DemoWiiYourself</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

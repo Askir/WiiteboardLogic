@@ -84,10 +84,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\Users\Jascha\Downloads\rightclickdll\rightclickdll\MouseInputDLL.h" />
-    <ClInclude Include="D:\WIIYOURSELF\WiiYourself!_1.15 (1)\WiiYourself!_1.15\wiimote.h" />
-    <ClInclude Include="D:\WIIYOURSELF\WiiYourself!_1.15 (1)\WiiYourself!_1.15\wiimote_common.h" />
-    <ClInclude Include="D:\WIIYOURSELF\WiiYourself!_1.15 (1)\WiiYourself!_1.15\wiimote_state.h" />
+    <ClInclude Include="MouseInputDLL.h" />
+    <ClInclude Include="wiimote.h" />
+    <ClInclude Include="wiimote_common.h" />
+    <ClInclude Include="wiimote_state.h" />
     <ClInclude Include="InputHandling.h" />
     <ClInclude Include="MorphingController.h" />
     <ClInclude Include="MouseMovement.h" />
@@ -100,7 +100,7 @@
     <ClInclude Include="WiimoteHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\WIIYOURSELF\WiiYourself!_1.15 (1)\WiiYourself!_1.15\wiimote.cpp" />
+    <ClCompile Include="wiimote.cpp" />
     <ClCompile Include="InputHandling.cpp" />
     <ClCompile Include="MorphingController.cpp" />
     <ClCompile Include="MouseMovement.cpp" />
@@ -115,10 +115,10 @@
     <ClCompile Include="Wiiteboard.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="D:\Users\Jascha\Downloads\rightclickdll\rightclickdll\MouseInputDLL.dll" />
+    <None Include="MouseInputDLL.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="D:\Users\Jascha\Downloads\rightclickdll\rightclickdll\MouseInputDLL.lib" />
+    <Library Include="MouseInputDLL.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

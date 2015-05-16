@@ -15,13 +15,68 @@
 #include "InputHandling.h"
 #include <random>
 #include "WiimoteHandler.h"
+#include <conio.h>
+WiimoteHandler wh;
+unsigned connected;
+MorphingController morphcon[8];
+
+void CALLBACK intervallMouseControl(
+	_In_ PVOID   lpParameter,
+	_In_ BOOLEAN TimerOrWaitFired
+	){
+	wh.refreshWiimotes();
+	//int returnvalues[connected][2];
+	//for (int i = 0; i < connected; i++){
+		
+	float data[2];	
+	bool visible = wh.getIRData(0, 0, data);
+		if (visible)
+			morphcon[0].getNewIRPoint(data[0], data[1]);
+		morphcon[0].getNewData(visible);
+	//}
+	
+	printf("KEKSE");
+
+}
+
+void startMouseControl(){
+	HANDLE hTQ = CreateTimerQueue();
+	if (hTQ == NULL){
+		printf("%x\n", GetLastError());
+	}
+	else{
+		HANDLE hnewTimer;
+		CreateTimerQueueTimer(&hnewTimer,
+			hTQ,
+			&intervallMouseControl,
+			NULL,
+			500,
+			10,
+			WT_EXECUTEDEFAULT);
+		std::cout << " press a to abort! ";
+		char input = _getch();
+		if (input == 'a'){
+			DeleteTimerQueueTimer(hTQ, hnewTimer, NULL);
+			DeleteTimerQueueEx(hTQ, NULL);
+		}
+	}
+
+}
+
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 
-	WiimoteHandler wh;
-	_tprintf(_T("%u connected"), wh.connectWiimotes());
-	wh.setLEDs(14);
+	connected = wh.connectWiimotes();
+	_tprintf(_T("%u connected"), connected);
+	morphcon[0].addCalibrationPoint(0.0, 0.0);
+	morphcon[0].addCalibrationPoint(0.0, 1.0);
+	morphcon[0].addCalibrationPoint(1.0, 1.0);
+	morphcon[0].addCalibrationPoint(1.0, 0.0);
+	morphcon[0].finalCalibration();
+	wh.setLEDs(15);
+	startMouseControl();
 	/**MorphingController morphCon = MorphingController();
 	morphCon.addCalibrationPoint(0.0, 0.0);
 	morphCon.addCalibrationPoint(0.0, 1.0);
@@ -98,4 +153,5 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << point.getX() << " " << point.getY(); **/
 	Sleep(30000);
 }
+
 
