@@ -16,9 +16,12 @@
 #include <random>
 #include "WiimoteHandler.h"
 #include <conio.h>
+#include "MouseMovement.h"
+#include "WiimoteMode.h"
 WiimoteHandler wh;
 unsigned connected;
 MorphingController morphcon[8];
+MouseMovement mouse;
 
 void CALLBACK intervallMouseControl(
 	_In_ PVOID   lpParameter,
@@ -30,12 +33,15 @@ void CALLBACK intervallMouseControl(
 		
 	float data[2];	
 	bool visible = wh.getIRData(0, 0, data);
-		if (visible)
-			morphcon[0].getNewIRPoint(data[0], data[1]);
+	if (visible){
+		Point point = morphcon[0].getNewIRPoint(data[0], data[1]);
+
+		mouse.setMousePosition(point.getX(), point.getY());
+		printf("an signal");
+	}
 		morphcon[0].getNewData(visible);
 	//}
 	
-	printf("KEKSE");
 
 }
 
@@ -67,15 +73,49 @@ void startMouseControl(){
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-
+	//wh.connectFirstWiimote();
 	connected = wh.connectWiimotes();
-	_tprintf(_T("%u connected"), connected);
+	_tprintf(_T("%u connected \n"), connected);
+	WiimoteMode modes[8];
+	for (unsigned i = 0; i < connected; i++){
+		wh.setLED(i, i);
+		bool defined = false;
+		while (!defined){
+			_tprintf(_T("choose mode for wiimote Number %u \n"), i);
+			_tprintf(_T("[w] for wiitboard camera \n [p} for presentation tool \n"));
+			char input = _getch();
+			if (input == 'w'){
+				modes[i] = CAMERA_MODE;
+				defined = true;
+			}
+			else if (input == 'p'){
+				modes[i] = PRESENTATION_MODE;
+				defined = true;
+			}
+			else{
+				_tprintf(_T("Wrong Button try again:"));
+			}
+		}
+
+	}
+	/**_tprintf(_T("to start calibrating press 'c'"));
+	char input = _getch();
+	if (input == 'c'){
+		bool visible = false;
+		while (!visible){
+			visible = wh.getIRData
+		}
+	}**/
 	morphcon[0].addCalibrationPoint(0.0, 0.0);
 	morphcon[0].addCalibrationPoint(0.0, 1.0);
 	morphcon[0].addCalibrationPoint(1.0, 1.0);
 	morphcon[0].addCalibrationPoint(1.0, 0.0);
 	morphcon[0].finalCalibration();
 	wh.setLEDs(15);
+	/**while (true){
+		float data[2];
+		wh.getIRData(0, 0, data);
+	}**/
 	startMouseControl();
 	/**MorphingController morphCon = MorphingController();
 	morphCon.addCalibrationPoint(0.0, 0.0);

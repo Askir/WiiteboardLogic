@@ -148,11 +148,11 @@
 					//	_tprintf(_T("                        "));
 				}
 				else{
-					_tprintf(_T("Dot %u is not visible \n"), index);
+					//_tprintf(_T("Dot %u is not visible \n"), index);
 				}
 
 			}
-			Sleep(1000);
+			Sleep(10);
 
 		}
 		Sleep(10000);
@@ -166,6 +166,7 @@
 			if (!next->Connect(wiimote::FIRST_AVAILABLE))
 				break;
 			detected++;
+			next->SetReportType(wiimote::IN_BUTTONS_ACCEL_IR);
 			wiimotes.push_back(next);
 		}
 		return detected;
@@ -174,6 +175,9 @@
 		for (unsigned i = 0; i < wiimotes.size();i++){
 			wiimotes[i]->SetLEDs(on);
 		}
+	}
+	void WiimoteHandler::setLED(int on, unsigned wiimote){
+		wiimotes[wiimote]->SetLEDs(on);
 	}
 
 	void WiimoteHandler::disconnectWiimotes(){
@@ -202,7 +206,7 @@
 		}
 	}
 
-	void WiimoteHandler::refreshWiimotes(){
+		void WiimoteHandler::refreshWiimotes(){
 		for (int i = 0; i < wiimotes.size(); i++){
 			wiimotes[i]->RefreshState();
 		}

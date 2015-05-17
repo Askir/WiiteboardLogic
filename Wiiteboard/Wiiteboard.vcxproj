@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClInclude Include="MouseInputDLL.h" />
     <ClInclude Include="wiimote.h" />
+    <ClInclude Include="WiimoteMode.h" />
     <ClInclude Include="wiimote_common.h" />
     <ClInclude Include="wiimote_state.h" />
     <ClInclude Include="InputHandling.h" />

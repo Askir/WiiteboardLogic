@@ -11,6 +11,7 @@ public:
 	void connectFirstWiimote();
 	int connectWiimotes();
 	void setLEDs(int);
+	void setLED(int,unsigned);
 	void disconnectWiimotes();
 	bool getIRData(unsigned, unsigned, float*);
 	void refreshWiimotes();

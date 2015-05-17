@@ -14,10 +14,10 @@ std::array<bool, 4> MOUSE_DISCONNECT_NIBBLE = { 0, 0, 0, 0 };
 bool InputHandling::receiveBit(bool bit) {
 	if (!startBitReceived) {
 		startBitReceived = !bit;
-	} 
+	}
 	if (startBitReceived) {
 		byte[bitCounter] = bit;
-		if (bitCounter == 7) {
+		if (bitCounter >= 7) {
 			bitCounter = 0;
 			startBitReceived = false;
 			readFrame();
@@ -50,9 +50,18 @@ void InputHandling::readFrame() {
 			}
 			int curIndex = index;
 			for (; index < curIndex + counter; ++index) {
+				std::cout << "Index: " << index;
 				nibble[index] = lastBit;
 			}
-			counter = 1;
+			if (lastBit && byteIndex % 2 == 1) {
+				counter = 1;
+			}
+			else if (byteIndex % 2 == 1) {
+				counter = 0;
+			}
+			else {
+				counter = 1;
+			}
 		}
 		byteIndex++;
 		lastBit = b;
@@ -77,7 +86,8 @@ PenAction InputHandling::analyzePenAction() {
 	}
 	else if (nibble == MOUSE_DISCONNECT_NIBBLE) {
 		penAction = MOUSE_DISCONNECT;
-	} else {
+	}
+	else {
 		penAction = MOVE_MOUSE;
 	}
 	return penAction;
@@ -90,5 +100,4 @@ PenAction InputHandling::getPenAction() {
 
 
 InputHandling::~InputHandling()
-{
-}
+{}

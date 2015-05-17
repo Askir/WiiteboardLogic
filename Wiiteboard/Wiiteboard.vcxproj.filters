@@ -60,12 +60,12 @@
     <ClInclude Include="MouseInputDLL.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="WiimoteMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Wiiteboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QuadrangleMorphing.cpp">
@@ -90,6 +90,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="wiimote.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wiiteboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

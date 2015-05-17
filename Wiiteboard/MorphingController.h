@@ -17,7 +17,7 @@ public:
 	bool MorphingController::deleteLastCalibrationPoint();
 	void MorphingController::resetCalibration();
 	void MorphingController::getNewData(bool bitValue);
-	void MorphingController::getNewIRPoint(float x, float y);
+	Point MorphingController::getNewIRPoint(float x, float y);
 	static const int WIIMOTE_CAMERA_HEIGHT = 768;
 	static const int WIIMOTE_CAMERA_WIDTH = 1024;
 	~MorphingController();
