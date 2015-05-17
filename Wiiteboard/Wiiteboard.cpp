@@ -22,26 +22,40 @@ WiimoteHandler wh;
 unsigned connected;
 MorphingController morphcon[8];
 MouseMovement mouse;
+bool cameraenabled = false;
+WiimoteMode modes[8] = { DISABLED_MODE, DISABLED_MODE, DISABLED_MODE, DISABLED_MODE, DISABLED_MODE, DISABLED_MODE, DISABLED_MODE, DISABLED_MODE, };
 
 void CALLBACK intervallMouseControl(
 	_In_ PVOID   lpParameter,
 	_In_ BOOLEAN TimerOrWaitFired
 	){
 	wh.refreshWiimotes();
-	//int returnvalues[connected][2];
-	//for (int i = 0; i < connected; i++){
-		
-	float data[2];	
-	bool visible = wh.getIRData(0, 0, data);
-	if (visible){
-		Point point = morphcon[0].getNewIRPoint(data[0], data[1]);
-
-		mouse.setMousePosition(point.getX(), point.getY());
-		printf("an signal");
+	Point* seenPoints[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+	for (int i = 0; i < connected; i++){
+		if (modes[i] == CAMERA_MODE){
+			bool visible;
+			float data[2];
+			visible = wh.getIRData(i, 0, data);
+			if (visible){
+				seenPoints[i] = &(morphcon[i].getNewIRPoint(data[0], data[1]));
+			}
+			morphcon[i].getNewData(visible);
+		}
 	}
-		morphcon[0].getNewData(visible);
-	//}
-	
+	int pointNr=0;
+	int xValue=0;
+	int yValue=0;
+	for (int i = 0; i < 8; i++){
+		
+		if (seenPoints[i] != NULL) {
+			pointNr++;
+			xValue += seenPoints[i]->getX();
+			yValue += seenPoints[i]->getY();
+		}
+	}
+	if (pointNr > 0){
+		mouse.setMousePosition(xValue / pointNr, yValue / pointNr);
+	}
 
 }
 
@@ -76,7 +90,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//wh.connectFirstWiimote();
 	connected = wh.connectWiimotes();
 	_tprintf(_T("%u connected \n"), connected);
-	WiimoteMode modes[8];
+	
 	for (unsigned i = 0; i < connected; i++){
 		wh.setLED(i, i);
 		bool defined = false;
@@ -86,6 +100,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			char input = _getch();
 			if (input == 'w'){
 				modes[i] = CAMERA_MODE;
+				cameraenabled = true;
 				defined = true;
 			}
 			else if (input == 'p'){
@@ -98,6 +113,34 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 
 	}
+	if (cameraenabled){
+		
+		for (int i = 0; i < 4; i++){
+			_tprintf(_T("Please tap int the Corner Number %i \n"), i+1);
+			
+			
+			for (int i2 = 0; i2 < connected; i2++){
+				if (modes[i2] == CAMERA_MODE){
+					bool visible = false;
+					float data[2];
+					while (!visible){
+						wh.refreshWiimotes();
+						visible = wh.getIRData(i2, 0, data);
+						if (visible){
+							morphcon[i2].addCalibrationPoint(data[0], data[1]);
+							if (i == 3){
+								morphcon[i2].finalCalibration();
+							}
+						}
+					}
+				}
+				
+			}
+			Sleep(500);
+		}
+		startMouseControl();
+	}
+
 	/**_tprintf(_T("to start calibrating press 'c'"));
 	char input = _getch();
 	if (input == 'c'){
@@ -106,17 +149,11 @@ int _tmain(int argc, _TCHAR* argv[])
 			visible = wh.getIRData
 		}
 	}**/
-	morphcon[0].addCalibrationPoint(0.0, 0.0);
-	morphcon[0].addCalibrationPoint(0.0, 1.0);
-	morphcon[0].addCalibrationPoint(1.0, 1.0);
-	morphcon[0].addCalibrationPoint(1.0, 0.0);
-	morphcon[0].finalCalibration();
-	wh.setLEDs(15);
 	/**while (true){
 		float data[2];
 		wh.getIRData(0, 0, data);
 	}**/
-	startMouseControl();
+
 	/**MorphingController morphCon = MorphingController();
 	morphCon.addCalibrationPoint(0.0, 0.0);
 	morphCon.addCalibrationPoint(0.0, 1.0);

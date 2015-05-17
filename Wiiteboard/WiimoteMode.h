@@ -3,6 +3,7 @@
 enum WiimoteMode
 {
 	PRESENTATION_MODE,
-	CAMERA_MODE
+	CAMERA_MODE,
+	DISABLED_MODE
 };
 #endif
